@@ -1,207 +1,304 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0d1117">
-<meta name="description" content="Track your Marvel Cinematic Universe watch progress.">
-<title>MCU Chronological Tracker</title>
-<style>
-:root{--bg:#0d1117;--card:#161b22;--border:#30363d;--text:#c9d1d9;--muted:#8b949e;--red:#e23636;--blue:#2f80ed;--green:#2ea44f}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:16px;overflow-x:hidden}
-header{text-align:center;margin:4px 0 14px}
-h1{font-size:clamp(1.2rem,3vw,1.7rem);color:#fff;text-transform:uppercase;letter-spacing:1px}
-h1 span{color:var(--red)}
-.subtitle{color:var(--muted);font-size:.85rem;margin-top:5px}
-.dashboard{background:var(--card);border:1px solid var(--border);border-radius:10px;width:100%;max-width:900px;margin:0 auto 14px;padding:14px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center}
-.stat-box h3{font-size:1.35rem;color:#fff}.stat-box p{font-size:.78rem;color:var(--muted)}
-.progress-container{grid-column:1/-1;background:var(--border);border-radius:5px;height:7px;overflow:hidden}
-.progress-bar{height:100%;width:0;background:var(--green);transition:width .25s}
-.toolbar{max-width:1200px;margin:0 auto 12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-.toolbar button{background:var(--card);color:var(--text);border:1px solid var(--border);padding:9px 13px;border-radius:7px;cursor:pointer;font-size:.85rem}
-.toolbar button:hover{border-color:var(--muted)}
-.saga-container{max-width:1400px;margin:auto;display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
-.saga-column{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px;min-width:0}
-.saga-title{font-size:1.05rem;color:#fff;margin-bottom:10px;padding-bottom:7px;border-bottom:2px solid var(--border);text-transform:uppercase;letter-spacing:.4px}
-.infinity-title{border-color:var(--red);color:#ff6b6b}.multiverse-title{border-color:var(--blue);color:#54a0ff}
-.item-list{list-style:none;display:grid;grid-template-columns:1fr;gap:6px}
-.checklist-item{display:flex;align-items:center;gap:9px;padding:9px;background:rgba(255,255,255,.015);border:1px solid var(--border);border-radius:6px;cursor:pointer;min-width:0;transition:background .15s}
-.checklist-item:hover{background:rgba(255,255,255,.045);border-color:var(--muted)}
-.checklist-item.checked{background:rgba(46,164,79,.08);border-color:var(--green)}
-.checklist-item input{width:16px;height:16px;flex:0 0 16px;accent-color:var(--green);cursor:pointer}
-.item-details{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;min-width:0}
-.item-title{font-size:.86rem;font-weight:500;color:#f0f6fc;overflow-wrap:anywhere}
-.checklist-item.checked .item-title{text-decoration:line-through;color:var(--muted)}
-.item-meta{display:flex;align-items:center;gap:6px;flex-shrink:0}
-.item-year{font-size:.73rem;color:var(--muted)}
-.badge{padding:2px 5px;border-radius:4px;font-size:.63rem;font-weight:700;text-transform:uppercase}
-.badge-movie{background:#4a154b;color:#fff}.badge-series{background:#005a9c;color:#fff}
-footer{text-align:center;color:var(--muted);font-size:.75rem;padding:16px 0 4px}
-@media(min-width:1100px){.item-list{grid-template-columns:1fr 1fr}}
-@media(max-width:700px){body{padding:10px}.saga-container{grid-template-columns:1fr;gap:12px}.dashboard{padding:11px}.saga-column{padding:10px}.saga-title{font-size:1rem}.checklist-item{padding:10px}.item-title{font-size:.88rem}}
-@media(prefers-reduced-motion:reduce){*{transition:none!important}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Checklist</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 24px 16px;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: #f4f6fb;
+      color: #222;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 35px auto;
+      padding: 25px;
+      background: white;
+      border-radius: 18px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      text-align: center;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #777;
+      margin-bottom: 25px;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      min-width: 0;
+      padding: 13px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 12px 16px;
+      border: none;
+      border-radius: 10px;
+      background: #5865f2;
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.88;
+    }
+
+    .progress {
+      display: flex;
+      justify-content: space-between;
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .progress-track {
+      height: 7px;
+      background: #e9eaf0;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: #5865f2;
+      transition: width 0.2s;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 10px;
+      border-bottom: 1px solid #eee;
+      overflow-wrap: anywhere;
+    }
+
+    li input[type="checkbox"] {
+      width: 19px;
+      height: 19px;
+      flex-shrink: 0;
+      cursor: pointer;
+      accent-color: #5865f2;
+    }
+
+    .task-text {
+      flex: 1;
+      line-height: 1.4;
+    }
+
+    li.done .task-text {
+      text-decoration: line-through;
+      color: #999;
+    }
+
+    .delete {
+      background: #ffe8e8;
+      color: #c62828;
+      padding: 8px 10px;
+      flex-shrink: 0;
+    }
+
+    .empty {
+      text-align: center;
+      color: #999;
+      padding: 28px 0;
+    }
+
+    .footer {
+      margin-top: 22px;
+      text-align: center;
+      color: #999;
+      font-size: 12px;
+    }
+
+    @media (max-width: 420px) {
+      .container {
+        padding: 18px;
+        margin: 10px auto;
+      }
+
+      .input-row button {
+        padding: 12px;
+      }
+
+      li {
+        gap: 8px;
+        padding: 12px 4px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-<header>
-<h1><span>MCU</span> Chronological Tracker</h1>
-<p class="subtitle">Your personal watchlist — progress saves on this device.</p>
-</header>
-<section class="dashboard" aria-label="Watch progress">
-<div class="stat-box"><h3 id="completed-count">0</h3><p>Completed</p></div>
-<div class="stat-box"><h3 id="total-count">0</h3><p>Total Items</p></div>
-<div class="stat-box"><h3 id="percent-complete">0%</h3><p>Progress</p></div>
-<div class="progress-container"><div class="progress-bar" id="progress-bar"></div></div>
-</section>
-<div class="toolbar">
-<button id="reset-button" type="button">Reset my progress</button>
-<button id="export-button" type="button">Export progress</button>
-<button id="import-button" type="button">Import progress</button>
-<input id="import-file" type="file" accept="application/json,.json" hidden>
-</div>
-<main class="saga-container">
-<section class="saga-column">
-<h2 class="saga-title infinity-title">The Infinity Saga</h2>
-<ul class="item-list" id="infinity-list"></ul>
-</section>
-<section class="saga-column">
-<h2 class="saga-title multiverse-title">The Multiverse Saga</h2>
-<ul class="item-list" id="multiverse-list"></ul>
-</section>
-</main>
-<footer>Progress is stored in this browser. Export your progress to back it up or move it to another device.</footer>
-<script>
-const mcuData = [
-{title:"Captain America: The First Avenger",year:2011,type:"movie",saga:"infinity",checked:false},
-{title:"The Fantastic Four: First Steps",year:2025,type:"movie",saga:"infinity",checked:false},
-{title:"Captain Marvel",year:2019,type:"movie",saga:"infinity",checked:false},
-{title:"Iron Man",year:2008,type:"movie",saga:"infinity",checked:false},
-{title:"Iron Man 2",year:2010,type:"movie",saga:"infinity",checked:false},
-{title:"The Incredible Hulk",year:2008,type:"movie",saga:"infinity",checked:false},
-{title:"Thor",year:2011,type:"movie",saga:"infinity",checked:false},
-{title:"The Avengers",year:2012,type:"movie",saga:"infinity",checked:true},
-{title:"Thor: The Dark World",year:2013,type:"movie",saga:"infinity",checked:false},
-{title:"Iron Man 3",year:2013,type:"movie",saga:"infinity",checked:false},
-{title:"Captain America: The Winter Soldier",year:2014,type:"movie",saga:"infinity",checked:false},
-{title:"Guardians of the Galaxy",year:2014,type:"movie",saga:"infinity",checked:false},
-{title:"Guardians of the Galaxy Vol. 2",year:2017,type:"movie",saga:"infinity",checked:false},
-{title:"I Am Groot",year:"22-23",type:"series",saga:"infinity",checked:false},
-{title:"Avengers: Age of Ultron",year:2015,type:"movie",saga:"infinity",checked:true},
-{title:"Ant-Man",year:2015,type:"movie",saga:"infinity",checked:false},
-{title:"Captain America: Civil War",year:2016,type:"movie",saga:"infinity",checked:true},
-{title:"Black Widow",year:2021,type:"movie",saga:"infinity",checked:false},
-{title:"Black Panther",year:2018,type:"movie",saga:"infinity",checked:false},
-{title:"Spider-Man: Homecoming",year:2017,type:"movie",saga:"infinity",checked:true},
-{title:"Doctor Strange",year:2016,type:"movie",saga:"infinity",checked:false},
-{title:"Thor: Ragnarok",year:2017,type:"movie",saga:"infinity",checked:false},
-{title:"Ant-Man and the Wasp",year:2018,type:"movie",saga:"infinity",checked:false},
-{title:"Avengers: Infinity War",year:2018,type:"movie",saga:"infinity",checked:true},
-{title:"Avengers: Endgame",year:2019,type:"movie",saga:"infinity",checked:true},
-{title:"Loki",year:"21-23",type:"series",saga:"multiverse",checked:false},
-{title:"Spider-Man: Far From Home",year:2019,type:"movie",saga:"multiverse",checked:true},
-{title:"Spider-Man: No Way Home",year:2021,type:"movie",saga:"multiverse",checked:true},
-{title:"What If...?",year:"21-24",type:"series",saga:"multiverse",checked:true},
-{title:"WandaVision",year:2021,type:"series",saga:"multiverse",checked:false},
-{title:"Shang-Chi and the Legend of the Ten Rings",year:2021,type:"movie",saga:"multiverse",checked:true},
-{title:"The Falcon and the Winter Soldier",year:2021,type:"series",saga:"multiverse",checked:false},
-{title:"Eternals",year:2021,type:"movie",saga:"multiverse",checked:false},
-{title:"Doctor Strange in the Multiverse of Madness",year:2022,type:"movie",saga:"multiverse",checked:false},
-{title:"Hawkeye",year:2021,type:"series",saga:"multiverse",checked:false},
-{title:"Moon Knight",year:2022,type:"series",saga:"multiverse",checked:false},
-{title:"Black Panther: Wakanda Forever",year:2022,type:"movie",saga:"multiverse",checked:false},
-{title:"She-Hulk: Attorney at Law",year:2022,type:"series",saga:"multiverse",checked:false},
-{title:"Ms. Marvel",year:2022,type:"series",saga:"multiverse",checked:false},
-{title:"Thor: Love and Thunder",year:2022,type:"movie",saga:"multiverse",checked:false},
-{title:"Ironheart",year:2025,type:"series",saga:"multiverse",checked:false},
-{title:"Werewolf by Night",year:2022,type:"special",saga:"multiverse",checked:false},
-{title:"The Guardians of the Galaxy Holiday Special",year:2022,type:"special",saga:"multiverse",checked:false},
-{title:"Ant-Man and the Wasp: Quantumania",year:2023,type:"movie",saga:"multiverse",checked:false},
-{title:"Guardians of the Galaxy Vol. 3",year:2023,type:"movie",saga:"multiverse",checked:false},
-{title:"Secret Invasion",year:2023,type:"series",saga:"multiverse",checked:false},
-{title:"The Marvels",year:2023,type:"movie",saga:"multiverse",checked:false},
-{title:"Deadpool and Wolverine",year:2024,type:"movie",saga:"multiverse",checked:false},
-{title:"Agatha All Along",year:2024,type:"series",saga:"multiverse",checked:false},
-{title:"Captain America: Brave New World",year:2025,type:"movie",saga:"multiverse",checked:false},
-{title:"Thunderbolts*",year:2025,type:"movie",saga:"multiverse",checked:false},
-{title:"Spider-Man: Brand New Day",year:2026,type:"movie",saga:"multiverse",checked:true}
-];
-const STORAGE_KEY = "mcu-tracker-progress-v1";
-function loadProgress(){
-  try {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
-    mcuData.forEach(item => {
-      if (Object.prototype.hasOwnProperty.call(saved,item.title)) item.checked = Boolean(saved[item.title]);
+  <main class="container">
+    <h1>My Checklist ✅</h1>
+    <p class="subtitle">Your tasks, your progress.</p>
+
+    <form class="input-row" id="taskForm">
+      <input
+        type="text"
+        id="taskInput"
+        placeholder="Add a new task..."
+        maxlength="200"
+        autocomplete="off"
+        required
+      >
+      <button type="submit">Add +</button>
+    </form>
+
+    <div class="progress">
+      <span>My progress</span>
+      <span id="progressText">0 / 0 completed</span>
+    </div>
+
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <ul id="taskList"></ul>
+
+    <div class="footer">
+      Saved on this device · Free forever on GitHub Pages
+    </div>
+  </main>
+
+  <script>
+    const STORAGE_KEY = "my-checklist-tasks-v1";
+
+    let tasks = [];
+
+    // Start with a completely blank checklist on first use.
+    // Existing saved tasks on this browser are preserved.
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) tasks = parsed;
+      }
+    } catch (error) {
+      tasks = [];
+    }
+
+    const taskForm = document.getElementById("taskForm");
+    const taskInput = document.getElementById("taskInput");
+    const taskList = document.getElementById("taskList");
+    const progressText = document.getElementById("progressText");
+    const progressFill = document.getElementById("progressFill");
+
+    function saveTasks() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+      } catch (error) {
+        console.warn("Tasks could not be saved on this device.");
+      }
+    }
+
+    function renderTasks() {
+      taskList.replaceChildren();
+
+      if (tasks.length === 0) {
+        const empty = document.createElement("li");
+        empty.className = "empty";
+        empty.textContent = "Your checklist is empty. Add your first task!";
+        taskList.appendChild(empty);
+      }
+
+      tasks.forEach((task, index) => {
+        const li = document.createElement("li");
+        if (task.done) li.classList.add("done");
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = Boolean(task.done);
+        checkbox.setAttribute("aria-label", "Complete " + task.text);
+
+        checkbox.addEventListener("change", () => {
+          tasks[index].done = checkbox.checked;
+          saveTasks();
+          renderTasks();
+        });
+
+        const text = document.createElement("span");
+        text.className = "task-text";
+        text.textContent = task.text;
+
+        const deleteButton = document.createElement("button");
+        deleteButton.className = "delete";
+        deleteButton.type = "button";
+        deleteButton.textContent = "Delete";
+        deleteButton.setAttribute("aria-label", "Delete " + task.text);
+
+        deleteButton.addEventListener("click", () => {
+          tasks.splice(index, 1);
+          saveTasks();
+          renderTasks();
+        });
+
+        li.append(checkbox, text, deleteButton);
+        taskList.appendChild(li);
+      });
+
+      const completed = tasks.filter(task => task.done).length;
+      const total = tasks.length;
+
+      progressText.textContent = `${completed} / ${total} completed`;
+      progressFill.style.width =
+        (total === 0 ? 0 : completed / total * 100) + "%";
+    }
+
+    taskForm.addEventListener("submit", event => {
+      event.preventDefault();
+
+      const text = taskInput.value.trim();
+      if (!text) return;
+
+      tasks.push({
+        text: text,
+        done: false
+      });
+
+      saveTasks();
+      renderTasks();
+
+      taskInput.value = "";
+      taskInput.focus();
     });
-  } catch (e) { console.warn("Could not load saved progress",e); }
-}
-function saveProgress(){
-  const saved = {};
-  mcuData.forEach(item => saved[item.title] = item.checked);
-  try { localStorage.setItem(STORAGE_KEY,JSON.stringify(saved)); }
-  catch(e) { console.warn("Could not save progress",e); }
-}
-function updateDashboard(){
-  const total=mcuData.length;
-  const completed=mcuData.filter(item=>item.checked).length;
-  const percentage=total?Math.round(completed/total*100):0;
-  document.getElementById("completed-count").textContent=completed;
-  document.getElementById("total-count").textContent=total;
-  document.getElementById("percent-complete").textContent=percentage+"%";
-  document.getElementById("progress-bar").style.width=percentage+"%";
-}
-function buildLists(){
-  const infinity=document.getElementById("infinity-list");
-  const multiverse=document.getElementById("multiverse-list");
-  infinity.replaceChildren(); multiverse.replaceChildren();
-  mcuData.forEach((item,index)=>{
-    const li=document.createElement("li");
-    li.className="checklist-item"+(item.checked?" checked":"");
-    const checkbox=document.createElement("input");
-    checkbox.type="checkbox"; checkbox.id="item-"+index; checkbox.checked=item.checked;
-    checkbox.setAttribute("aria-label","Mark "+item.title+" as watched");
-    const details=document.createElement("div"); details.className="item-details";
-    const title=document.createElement("span"); title.className="item-title";
-    title.textContent=item.title; title.title=item.title;
-    const meta=document.createElement("div"); meta.className="item-meta";
-    const badge=document.createElement("span");
-    badge.className="badge "+(item.type==="movie"?"badge-movie":"badge-series");
-    badge.textContent=item.type==="special"?"special":item.type;
-    const year=document.createElement("span"); year.className="item-year";
-    year.textContent=typeof item.year==="number"?"'"+String(item.year).slice(-2):item.year;
-    meta.append(badge,year); details.append(title,meta); li.append(checkbox,details);
-    checkbox.addEventListener("change",()=>{
-      item.checked=checkbox.checked; li.classList.toggle("checked",item.checked);
-      saveProgress(); updateDashboard();
-    });
-    li.addEventListener("click",event=>{
-      if(event.target!==checkbox){checkbox.checked=!checkbox.checked;checkbox.dispatchEvent(new Event("change"));}
-    });
-    (item.saga==="infinity"?infinity:multiverse).appendChild(li);
-  });
-}
-document.getElementById("reset-button").addEventListener("click",()=>{
-  if(confirm("Reset all your watched items to their original defaults?")){
-    mcuData.forEach(item=>item.checked=false);
-    saveProgress();buildLists();updateDashboard();
-  }
-});
-document.getElementById("export-button").addEventListener("click",()=>{
-  const blob=new Blob([JSON.stringify(Object.fromEntries(mcuData.map(i=>[i.title,i.checked])),null,2)],{type:"application/json"});
-  const url=URL.createObjectURL(blob);const a=document.createElement("a");
-  a.href=url;a.download="mcu-progress.json";a.click();URL.revokeObjectURL(url);
-});
-document.getElementById("import-button").addEventListener("click",()=>document.getElementById("import-file").click());
-document.getElementById("import-file").addEventListener("change",async event=>{
-  const file=event.target.files[0];if(!file)return;
-  try{
-    const saved=JSON.parse(await file.text());
-    mcuData.forEach(item=>{if(Object.prototype.hasOwnProperty.call(saved,item.title))item.checked=Boolean(saved[item.title]);});
-    saveProgress();buildLists();updateDashboard();alert("Progress imported!");
-  }catch(e){alert("That file doesn't look like a valid MCU progress backup.");}
-  event.target.value="";
-});
-loadProgress();buildLists();updateDashboard();
-</script>
+
+    renderTasks();
+  </script>
 </body>
 </html>
